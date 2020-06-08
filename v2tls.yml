@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bt
+  template:
+    metadata:
+      labels:
+        app: bt
+    spec:
+      containers:
+      - image: byxiaopeng/v2tls-docker
+        name: bt
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: bt
+  annotations:
+    dev.okteto.com/auto-ingress: "true"
+spec:
+  type: ClusterIP  
+  ports:
+  - name: "http-port-tcp"
+    port: 80
+  selector:
+    app: bt
