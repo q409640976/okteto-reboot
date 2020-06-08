@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bt
+  name: v2ws
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bt
+      app: v2ws
   template:
     metadata:
       labels:
-        app: bt
+        app: v2ws
     spec:
       containers:
       - image: byxiaopeng/v2tls-docker
-        name: bt
+        name: v2ws
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: bt
+  name: v2ws
   annotations:
     dev.okteto.com/auto-ingress: "true"
 spec:
@@ -30,4 +30,4 @@ spec:
   - name: "http-port-tcp"
     port: 80
   selector:
-    app: bt
+    app: v2ws
