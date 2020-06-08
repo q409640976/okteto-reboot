@@ -1,0 +1,36 @@
+name: okteto
+on:
+  schedule:
+    - cron: 10 22 * * *
+jobs:
+  build:
+    runs-on: ubuntu-latest  
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install build dependencies
+      run: |
+        sudo apt-get -y update
+        sudo apt-get -y upgrade
+        sudo apt-get -y install wget
+        sudo apt-get -y install curl
+    - name: Clone source
+      run: |
+        cd /home/runner
+        wget https://github.com/okteto/okteto/releases/download/1.8.9/okteto-Linux-x86_64
+        chmod +x ./okteto-Linux-x86_64
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+    - name: go kaishi
+      run: |
+        /home/runner/okteto-Linux-x86_64 login --token okteto的api密钥
+        #okteto的api密钥
+        /home/runner/okteto-Linux-x86_64 namespace byxiaopeng
+        #xx.yml  自己要部署项目
+        wget https://github.com/okteto-reboot/raw/master/xx.yml
+        #kubectl replace 强制覆盖项目
+        kubectl replace --force -f /home/runner/xx.yml     
+    - uses: actions/upload-artifact@master
+      with:
+        name: result
+        path: /usr/local/bin/kubectl
