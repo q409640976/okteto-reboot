@@ -25,7 +25,7 @@ jobs:
       run: |
         /home/runner/okteto-Linux-x86_64 login --token okteto的api密钥
         #okteto的api密钥
-        /home/runner/okteto-Linux-x86_64 namespace byxiaopeng
+        /home/runner/okteto-Linux-x86_64 namespace 空间名称
         #xx.yml  自己要部署项目
         wget https://github.com/okteto-reboot/raw/master/xx.yml
         #kubectl replace 强制覆盖项目
